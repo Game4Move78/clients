@@ -19,6 +19,7 @@ export class ServeCommand {
     const protectOrigin = !options.disableOriginProtection;
     const port = options.port || 8087;
     const hostname = options.hostname || "localhost";
+
     this.serviceContainer.logService.info(
       `Starting server on ${hostname}:${port} with ${
         protectOrigin ? "origin protection" : "no origin protection"
@@ -50,11 +51,21 @@ export class ServeCommand {
 
     this.serveConfigurator.configureRouter(router);
 
-    server
-      .use(router.routes())
-      .use(router.allowedMethods())
-      .listen(port, hostname === "all" ? null : hostname, () => {
-        this.serviceContainer.logService.info("Listening on " + hostname + ":" + port);
-      });
+    if (hostname.startsWith("unix://")) {
+      const socketPath = hostname.substring(5);
+      server
+        .use(router.routes())
+        .use(router.allowedMethods())
+        .listen(socketPath, () => {
+          this.serviceContainer.logService.info("Listening on " + hostname);
+        });
+    } else {
+      server
+        .use(router.routes())
+        .use(router.allowedMethods())
+        .listen(port, hostname === "all" ? null : hostname, () => {
+          this.serviceContainer.logService.info("Listening on " + hostname + ":" + port);
+        });
+    }
   }
 }
