@@ -52,7 +52,7 @@ export class ServeCommand {
     this.serveConfigurator.configureRouter(router);
 
     if (hostname.startsWith("unix://")) {
-      const socketPath = hostname.substring(5);
+      const socketPath = hostname.slice("unix://".length);
       server
         .use(router.routes())
         .use(router.allowedMethods())
