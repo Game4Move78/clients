@@ -1,3 +1,6 @@
+import http from "node:http";
+import net from "node:net";
+
 import * as koaRouter from "@koa/router";
 import { OptionValues } from "commander";
 import * as koa from "koa";
@@ -51,21 +54,32 @@ export class ServeCommand {
 
     this.serveConfigurator.configureRouter(router);
 
-    if (hostname.startsWith("unix://")) {
+    server.use(router.routes()).use(router.allowedMethods());
+
+    if (hostname.startsWith("fd+connected://")) {
+      const fd = parseInt(hostname.slice("fd+connected://".length));
+      const httpServer = http.createServer(server.callback());
+      const socket = new net.Socket({ fd: fd, readable: true, writable: true });
+      httpServer.keepAliveTimeout = 0; // don't close idle sockets
+      httpServer.headersTimeout = 0; // don't kill incomplete handshakes
+      httpServer.timeout = 0; // don't kill slow requests
+      socket.pause(); // Prevent premature reads before Koa is ready
+      httpServer.emit("connection", socket);
+      socket.resume(); // Let the HTTP parser start reading
+    } else if (hostname.startsWith("fd+listening://")) {
+      const fd = parseInt(hostname.slice("fd+listening://".length));
+      server.listen({ fd }, () => {
+        this.serviceContainer.logService.info("Listening on " + hostname);
+      });
+    } else if (hostname.startsWith("unix://")) {
       const socketPath = hostname.slice("unix://".length);
-      server
-        .use(router.routes())
-        .use(router.allowedMethods())
-        .listen(socketPath, () => {
-          this.serviceContainer.logService.info("Listening on " + hostname);
-        });
+      server.listen(socketPath, () => {
+        this.serviceContainer.logService.info("Listening on " + hostname);
+      });
     } else {
-      server
-        .use(router.routes())
-        .use(router.allowedMethods())
-        .listen(port, hostname === "all" ? null : hostname, () => {
-          this.serviceContainer.logService.info("Listening on " + hostname + ":" + port);
-        });
+      server.listen(port, hostname === "all" ? null : hostname, () => {
+        this.serviceContainer.logService.info("Listening on " + hostname + ":" + port);
+      });
     }
   }
 }
