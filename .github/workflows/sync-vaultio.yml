@@ -1,0 +1,40 @@
+name: Rebase vaultio onto upstream/main
+
+on:
+  workflow_dispatch:  # Manual trigger
+  schedule:
+    - cron: '0 * * * *'  # Optional: hourly
+
+jobs:
+  rebase:
+    if: github.repository == 'Game4Move78/clients'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout vaultio branch
+        uses: actions/checkout@v4
+        with:
+          ref: vaultio
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add upstream and fetch main
+        run: |
+          git remote add upstream https://github.com/bitwarden/clients.git
+          git fetch upstream main
+
+      - name: Rebase onto upstream/main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rebase upstream/main || exit 0  # Abort rest if rebase fails
+
+      - name: Move upstream workflows to disabled/
+        run: |
+          mkdir -p .github/workflows/disabled/
+          git mv -f .github/workflows/*.yml .github/workflows/disabled/ || true
+
+      - name: Push rebased branch
+        run: |
+          git push --force-with-lease origin HEAD:vaultio
+
