@@ -49,7 +49,7 @@ jobs:
         id: version
         uses: bitwarden/gh-actions/release-version-check@main
         with:
-          release-type: 'Initial Release'
+          release-type: "Initial Release"
           project-type: ts
           file: apps/desktop/src/package.json
           monorepo: true
@@ -131,8 +131,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
           node-version: ${{ env._NODE_VERSION }}
 
       - name: Set up environment
@@ -199,7 +199,6 @@ jobs:
           path: apps/desktop/dist/${{ needs.setup.outputs.release_channel }}-linux.yml
           if-no-files-found: error
 
-
   windows:
     name: Windows Build
     runs-on: windows-2022
@@ -221,8 +220,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
           node-version: ${{ env._NODE_VERSION }}
 
       - name: Install AST
@@ -389,7 +388,6 @@ jobs:
           path: apps/desktop/dist/nsis-web/${{ needs.setup.outputs.release_channel }}.yml
           if-no-files-found: error
 
-
   macos-build:
     name: MacOS Build
     runs-on: macos-13
@@ -410,8 +408,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
           node-version: ${{ env._NODE_VERSION }}
 
       - name: Set up Node-gyp
@@ -521,7 +519,6 @@ jobs:
       - name: Build application (dev)
         run: npm run build
 
-
   macos-package-github:
     name: MacOS Package GitHub Release Assets
     runs-on: macos-13
@@ -544,8 +541,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
           node-version: ${{ env._NODE_VERSION }}
 
       - name: Set up Node-gyp
@@ -734,7 +731,6 @@ jobs:
           path: apps/desktop/dist/${{ needs.setup.outputs.release_channel }}-mac.yml
           if-no-files-found: error
 
-
   macos-package-mas:
     name: MacOS Package Prod Release Asset
     runs-on: macos-13
@@ -757,8 +753,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
           node-version: ${{ env._NODE_VERSION }}
 
       - name: Set up Node-gyp
@@ -936,10 +932,10 @@ jobs:
         uses: chrnorm/deployment-action@55729fcebec3d284f60f5bcabbd8376437d696b1 # v2.0.7
         id: deployment
         with:
-          token: '${{ secrets.GITHUB_TOKEN }}'
-          initial-status: 'in_progress'
-          environment: 'Desktop - Beta'
-          description: 'Deployment ${{ needs.setup.outputs.release_version }} to channel ${{ needs.setup.outputs.release_channel }} from branch ${{ needs.setup.outputs.branch_name }}'
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          initial-status: "in_progress"
+          environment: "Desktop - Beta"
+          description: "Deployment ${{ needs.setup.outputs.release_version }} to channel ${{ needs.setup.outputs.release_channel }} from branch ${{ needs.setup.outputs.branch_name }}"
           task: release
 
       - name: Login to Azure
@@ -971,7 +967,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ steps.retrieve-secrets.outputs.aws-electron-access-id }}
           AWS_SECRET_ACCESS_KEY: ${{ steps.retrieve-secrets.outputs.aws-electron-access-key }}
-          AWS_DEFAULT_REGION: 'us-west-2'
+          AWS_DEFAULT_REGION: "us-west-2"
           AWS_S3_BUCKET_NAME: ${{ steps.retrieve-secrets.outputs.aws-electron-bucket-name }}
         working-directory: apps/desktop/artifacts
         run: |
@@ -984,16 +980,16 @@ jobs:
         if: ${{ success() }}
         uses: chrnorm/deployment-status@9a72af4586197112e0491ea843682b5dc280d806 # v2.0.3
         with:
-          token: '${{ secrets.GITHUB_TOKEN }}'
-          state: 'success'
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          state: "success"
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
 
       - name: Update deployment status to Failure
         if: ${{ failure() }}
         uses: chrnorm/deployment-status@9a72af4586197112e0491ea843682b5dc280d806 # v2.0.3
         with:
-          token: '${{ secrets.GITHUB_TOKEN }}'
-          state: 'failure'
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          state: "failure"
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
 
   remove-branch:

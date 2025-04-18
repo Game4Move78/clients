@@ -1,0 +1,39 @@
+name: Rebase upstream/main into vaultio
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/30 * * * *'  # Every 30 minutes
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout vaultio branch of your fork
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT }}
+          ref: vaultio
+          repository: Game4Move78/clients
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Add upstream remote and fetch
+        run: |
+          git remote add upstream https://github.com/bitwarden/clients.git
+          git fetch upstream main:refs/remotes/upstream/main
+
+      - name: Rebase onto vaultio
+        run: |
+          git rebase upstream/main
+
+      - name: Push rebased vaultio branch
+        run: |
+          git push --force-with-lease origin vaultio
+        env:
+          GIT_AUTH_TOKEN: ${{ secrets.PAT }}

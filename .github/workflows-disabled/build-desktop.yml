@@ -8,27 +8,27 @@ on:
   pull_request:
     types: [opened, synchronize]
     branches-ignore:
-      - 'l10n_master'
-      - 'cf-pages'
+      - "l10n_master"
+      - "cf-pages"
     paths:
-      - 'apps/desktop/**'
-      - 'libs/**'
-      - '*'
-      - '!*.md'
-      - '!*.txt'
-      - '.github/workflows/build-desktop.yml'
+      - "apps/desktop/**"
+      - "libs/**"
+      - "*"
+      - "!*.md"
+      - "!*.txt"
+      - ".github/workflows/build-desktop.yml"
   push:
     branches:
-      - 'main'
-      - 'rc'
-      - 'hotfix-rc-desktop'
+      - "main"
+      - "rc"
+      - "hotfix-rc-desktop"
     paths:
-      - 'apps/desktop/**'
-      - 'libs/**'
-      - '*'
-      - '!*.md'
-      - '!*.txt'
-      - '.github/workflows/build-desktop.yml'
+      - "apps/desktop/**"
+      - "libs/**"
+      - "*"
+      - "!*.md"
+      - "!*.txt"
+      - ".github/workflows/build-desktop.yml"
   workflow_call:
     inputs: {}
   workflow_dispatch:
@@ -174,8 +174,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
           node-version: ${{ env._NODE_VERSION }}
 
       - name: Set up environment
@@ -297,7 +297,6 @@ jobs:
           path: apps/desktop/dist/com.bitwarden.desktop.flatpak
           if-no-files-found: error
 
-
   windows:
     name: Windows Build
     runs-on: windows-2022
@@ -320,8 +319,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
           node-version: ${{ env._NODE_VERSION }}
 
       - name: Install AST
@@ -554,7 +553,6 @@ jobs:
           path: apps/desktop/dist/nsis-web/${{ needs.setup.outputs.release_channel }}.yml
           if-no-files-found: error
 
-
   macos-build:
     name: MacOS Build
     runs-on: macos-13
@@ -576,8 +574,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
           node-version: ${{ env._NODE_VERSION }}
 
       - name: Set up Node-gyp
@@ -738,14 +736,12 @@ jobs:
       - name: Build application (dev)
         run: npm run build
 
-
   browser-build:
     name: Browser Build
     needs: setup
     if: ${{ needs.setup.outputs.has_secrets == 'true' }}
     uses: ./.github/workflows/build-browser.yml
     secrets: inherit
-
 
   macos-package-github:
     name: MacOS Package GitHub Release Assets
@@ -771,8 +767,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
           node-version: ${{ env._NODE_VERSION }}
 
       - name: Set up Node-gyp
@@ -988,7 +984,6 @@ jobs:
           path: apps/desktop/dist/${{ needs.setup.outputs.release_channel }}-mac.yml
           if-no-files-found: error
 
-
   macos-package-mas:
     name: MacOS Package Prod Release Asset
     runs-on: macos-13
@@ -1013,8 +1008,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
           node-version: ${{ env._NODE_VERSION }}
 
       - name: Set up Node-gyp
@@ -1281,7 +1276,6 @@ jobs:
         env:
           BUILD_NUMBER: ${{ needs.setup.outputs.build_number }}
 
-
   macos-package-dev:
     name: MacOS Package Dev Release Asset
     runs-on: macos-13
@@ -1306,8 +1300,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
           node-version: ${{ env._NODE_VERSION }}
 
       - name: Set up Node-gyp
@@ -1500,7 +1494,6 @@ jobs:
           path: apps/desktop/dist/mas-dev-universal/Bitwarden-${{ env._PACKAGE_VERSION }}-masdev-universal.zip
           if-no-files-found: error
 
-
   crowdin-push:
     name: Crowdin Push
     if: github.event_name != 'pull_request_target' && github.ref == 'refs/heads/main'
@@ -1539,7 +1532,6 @@ jobs:
           crowdin_branch_name: main
           upload_sources: true
           upload_translations: false
-
 
   check-failures:
     name: Check for failures

@@ -37,7 +37,6 @@ on:
         required: false
         type: string
 
-
 jobs:
   setup:
     name: Setup
@@ -57,7 +56,6 @@ jobs:
           fi
 
           echo "branch=$BRANCH" >> $GITHUB_OUTPUT
-
 
   cut_branch:
     name: Cut branch
@@ -93,7 +91,6 @@ jobs:
         run: |
           git switch --quiet --create $BRANCH_NAME
           git push --quiet --set-upstream origin $BRANCH_NAME
-
 
   bump_version:
     name: Bump Version
@@ -441,7 +438,6 @@ jobs:
       - name: Push changes
         if: ${{ steps.version-changed.outputs.changes_to_commit == 'TRUE' }}
         run: git push
-
 
   cherry_pick:
     name: Cherry-Pick Commit(s)

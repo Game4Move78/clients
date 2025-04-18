@@ -10,16 +10,16 @@ on:
   pull_request_target:
     types: [opened, synchronize]
     branches-ignore:
-      - 'l10n_master'
-      - 'cf-pages'
+      - "l10n_master"
+      - "cf-pages"
     paths:
-      - 'apps/cli/**'
-      - 'libs/**'
-      - '*'
-      - '!*.md'
-      - '!*.txt'
-      - '.github/workflows/build-cli.yml'
-      - 'bitwarden_license/bit-cli/**'
+      - "apps/cli/**"
+      - "libs/**"
+      - "*"
+      - "!*.md"
+      - "!*.txt"
+      - ".github/workflows/build-cli.yml"
+      - "bitwarden_license/bit-cli/**"
 
 defaults:
   run:
@@ -36,4 +36,3 @@ jobs:
     if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
     uses: ./.github/workflows/build-cli.yml
     secrets: inherit
-

@@ -3,15 +3,15 @@ name: Auto Update Branch
 on:
   push:
     branches:
-      - 'main'
-      - 'rc'
+      - "main"
+      - "rc"
     paths:
-      - 'apps/web/**'
-      - 'libs/**'
-      - '*'
-      - '!*.md'
-      - '!*.txt'
-      - '.github/workflows/build-web.yml'
+      - "apps/web/**"
+      - "libs/**"
+      - "*"
+      - "!*.md"
+      - "!*.txt"
+      - ".github/workflows/build-web.yml"
   workflow_dispatch:
     inputs: {}
 
@@ -30,7 +30,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          ref: 'eu-web-${{ steps.setup.outputs.branch }}'
+          ref: "eu-web-${{ steps.setup.outputs.branch }}"
           fetch-depth: 0
 
       - name: Merge ${{ steps.setup.outputs.branch }}

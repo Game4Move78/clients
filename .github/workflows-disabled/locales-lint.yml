@@ -3,10 +3,10 @@ name: Locales lint for Crowdin
 on:
   pull_request:
     branches-ignore:
-      - 'l10n_master'
-      - 'cf-pages'
+      - "l10n_master"
+      - "cf-pages"
     paths:
-      - '**/messages.json'
+      - "**/messages.json"
 
 jobs:
   lint:

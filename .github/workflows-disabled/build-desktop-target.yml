@@ -1,4 +1,3 @@
-
 # This workflow is intended to be run when we need to build the client and produce artifacts that require secrets
 # when the PR source branch does not have access to secrets (e.g. a fork).
 # This workflow will run in the context of the target of the PR and have access to secrets.
@@ -11,15 +10,15 @@ on:
   pull_request_target:
     types: [opened, synchronize]
     branches-ignore:
-      - 'l10n_master'
-      - 'cf-pages'
+      - "l10n_master"
+      - "cf-pages"
     paths:
-      - 'apps/desktop/**'
-      - 'libs/**'
-      - '*'
-      - '!*.md'
-      - '!*.txt'
-      - '.github/workflows/build-desktop.yml'
+      - "apps/desktop/**"
+      - "libs/**"
+      - "*"
+      - "!*.md"
+      - "!*.txt"
+      - ".github/workflows/build-desktop.yml"
 
 defaults:
   run:
@@ -36,4 +35,3 @@ jobs:
     if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
     uses: ./.github/workflows/build-desktop.yml
     secrets: inherit
-

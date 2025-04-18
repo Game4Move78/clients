@@ -4,17 +4,17 @@ on:
   pull_request:
     types: [opened, synchronize]
     branches-ignore:
-      - 'l10n_master'
-      - 'cf-pages'
+      - "l10n_master"
+      - "cf-pages"
     paths-ignore:
-      - '.github/workflows/**'
+      - ".github/workflows/**"
   push:
     branches:
-      - 'main'
-      - 'rc'
-      - 'hotfix-rc-*'
+      - "main"
+      - "rc"
+      - "hotfix-rc-*"
     paths-ignore:
-      - '.github/workflows/**'
+      - ".github/workflows/**"
   workflow_dispatch:
     inputs: {}
 
@@ -59,8 +59,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
           node-version: ${{ steps.retrieve-node-version.outputs.node_version }}
 
       - name: Install Node dependencies
