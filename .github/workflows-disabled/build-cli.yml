@@ -8,29 +8,29 @@ on:
   pull_request:
     types: [opened, synchronize]
     branches-ignore:
-      - 'l10n_master'
-      - 'cf-pages'
+      - "l10n_master"
+      - "cf-pages"
     paths:
-      - 'apps/cli/**'
-      - 'libs/**'
-      - '*'
-      - '!*.md'
-      - '!*.txt'
-      - '.github/workflows/build-cli.yml'
-      - 'bitwarden_license/bit-cli/**'
+      - "apps/cli/**"
+      - "libs/**"
+      - "*"
+      - "!*.md"
+      - "!*.txt"
+      - ".github/workflows/build-cli.yml"
+      - "bitwarden_license/bit-cli/**"
   push:
     branches:
-      - 'main'
-      - 'rc'
-      - 'hotfix-rc-cli'
+      - "main"
+      - "rc"
+      - "hotfix-rc-cli"
     paths:
-      - 'apps/cli/**'
-      - 'libs/**'
-      - '*'
-      - '!*.md'
-      - '!*.txt'
-      - '.github/workflows/build-cli.yml'
-      - 'bitwarden_license/bit-cli/**'
+      - "apps/cli/**"
+      - "libs/**"
+      - "*"
+      - "!*.md"
+      - "!*.txt"
+      - ".github/workflows/build-cli.yml"
+      - "bitwarden_license/bit-cli/**"
   workflow_call:
     inputs: {}
   workflow_dispatch:
@@ -85,15 +85,15 @@ jobs:
     strategy:
       matrix:
         os:
-         [
-          { base: "linux", distro: "ubuntu-22.04", target_suffix: "" },
-          { base: "mac", distro: "macos-13", target_suffix: "" },
-          { base: "mac", distro: "macos-14", target_suffix: "-arm64" }
-         ]
+          [
+            { base: "linux", distro: "ubuntu-22.04", target_suffix: "" },
+            { base: "mac", distro: "macos-13", target_suffix: "" },
+            { base: "mac", distro: "macos-14", target_suffix: "-arm64" },
+          ]
         license_type:
           [
             { build_prefix: "oss", artifact_prefix: "-oss", readable: "open source license" },
-            { build_prefix: "bit", artifact_prefix: "", readable: "commercial license" }
+            { build_prefix: "bit", artifact_prefix: "", readable: "commercial license" },
           ]
     runs-on: ${{ matrix.os.distro }}
     needs:
@@ -118,8 +118,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
           node-version: ${{ env._NODE_VERSION }}
 
       - name: Install
@@ -193,7 +193,7 @@ jobs:
         license_type:
           [
             { build_prefix: "oss", artifact_prefix: "-oss", readable: "open source license" },
-            { build_prefix: "bit", artifact_prefix: "", readable: "commercial license" }
+            { build_prefix: "bit", artifact_prefix: "", readable: "commercial license" },
           ]
     runs-on: windows-2022
     needs:
@@ -221,8 +221,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
           node-version: ${{ env._NODE_VERSION }}
 
       - name: Get pkg-fetch
@@ -268,7 +268,6 @@ jobs:
           "@
           $versionInfo | Out-File ./version-info.rc
       # https://github.com/vercel/pkg-fetch/issues/188
-
       - name: Resource Hacker
         shell: cmd
         run: |
@@ -476,7 +475,6 @@ jobs:
           name: bw-snap-sha256-${{ env._PACKAGE_VERSION }}.txt
           path: apps/cli/dist/snap/bw-snap-sha256-${{ env._PACKAGE_VERSION }}.txt
           if-no-files-found: error
-
 
   check-failures:
     name: Check for failures
