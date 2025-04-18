@@ -8,27 +8,27 @@ on:
   pull_request:
     types: [opened, synchronize]
     branches-ignore:
-      - 'l10n_master'
-      - 'cf-pages'
+      - "l10n_master"
+      - "cf-pages"
     paths:
-      - 'apps/web/**'
-      - 'libs/**'
-      - '*'
-      - '!*.md'
-      - '!*.txt'
-      - '.github/workflows/build-web.yml'
+      - "apps/web/**"
+      - "libs/**"
+      - "*"
+      - "!*.md"
+      - "!*.txt"
+      - ".github/workflows/build-web.yml"
   push:
     branches:
-      - 'main'
-      - 'rc'
-      - 'hotfix-rc-web'
+      - "main"
+      - "rc"
+      - "hotfix-rc-web"
     paths:
-      - 'apps/web/**'
-      - 'libs/**'
-      - '*'
-      - '!*.md'
-      - '!*.txt'
-      - '.github/workflows/build-web.yml'
+      - "apps/web/**"
+      - "libs/**"
+      - "*"
+      - "!*.md"
+      - "!*.txt"
+      - ".github/workflows/build-web.yml"
   release:
     types: [published]
   workflow_call:
@@ -45,7 +45,6 @@ on:
 
 env:
   _AZ_REGISTRY: bitwardenprod.azurecr.io
-
 
 jobs:
   setup:
@@ -79,7 +78,6 @@ jobs:
         run: |
           has_secrets=${{ secrets.AZURE_KV_CI_SERVICE_PRINCIPAL != '' }}
           echo "has_secrets=$has_secrets" >> $GITHUB_OUTPUT
-
 
   build-containers:
     name: "Build [${{matrix.artifact_name}}], image tag: [${{matrix.image_name}}]"
@@ -156,7 +154,7 @@ jobs:
           VERSION=$( jq -r ".version" package.json)
           jq --arg version "$VERSION+${GITHUB_SHA:0:7}" '.version = $version' package.json > package.json.tmp
           mv package.json.tmp package.json
-      
+
       ########## Set up Docker ##########
       - name: Set up Docker
         uses: docker/setup-docker-action@b60f85385d03ac8acfca6d9996982511d8620a19 # v4.3.0
@@ -294,7 +292,6 @@ jobs:
       - name: Log out of Docker
         run: docker logout $_AZ_REGISTRY
 
-  
   crowdin-push:
     name: Crowdin Push
     if: github.event_name != 'pull_request_target' && github.ref == 'refs/heads/main'
@@ -330,7 +327,6 @@ jobs:
           upload_sources: true
           upload_translations: false
 
-
   trigger-web-vault-deploy:
     name: Trigger web vault deploy
     if: github.event_name != 'pull_request_target' && github.ref == 'refs/heads/main'
@@ -364,7 +360,6 @@ jobs:
                 'build-web-run-id': '${{ github.run_id }}'
               }
             })
-
 
   check-failures:
     name: Check for failures
